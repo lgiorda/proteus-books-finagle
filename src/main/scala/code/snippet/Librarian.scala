@@ -18,7 +18,7 @@ import edu.ciir.proteus.thrift._
 
 object Librarian extends Logger  {
   //val library = new LibrarianClient("localhost", 8081)
-  val library = new ProteusClient("mildura.cs.umass.edu", 8999)
+  val library = new ProteusClient("localhost", 8999)
   def performSearch(query:String, typesRequested: List[String]) : List[SearchResult] = {
       
         // catch illegal operator exception here

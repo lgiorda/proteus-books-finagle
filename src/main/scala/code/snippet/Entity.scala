@@ -182,8 +182,8 @@ object Entity extends Query {
         val person = Librarian.library.lookupPerson(result.item).get()
         val birth = person.birthDate
         val death = person.birthDate
-        val birthStr = if(birth != -1) java.text.DateFormat.getDateInstance(java.text.DateFormat.MEDIUM).format(new java.util.Date(birth.get)) else "??"
-        val deathStr = if(death != -1) java.text.DateFormat.getDateInstance(java.text.DateFormat.MEDIUM).format(new java.util.Date(death.get)) else "??"
+        val birthStr = if(birth != -1) java.text.DateFormat.getDateInstance(java.text.DateFormat.MEDIUM).format(new java.util.Date(birth.getOrElse(1995L))) else "??"
+        val deathStr = if(death != -1) java.text.DateFormat.getDateInstance(java.text.DateFormat.MEDIUM).format(new java.util.Date(death.getOrElse(2012L))) else "??"
         return "(" + birthStr + " - " + deathStr + ")"
     } else if (result.item.proteusType.get.equals(ProteusType.Organization)) {
       println("ERROR: How'd you get that...")
