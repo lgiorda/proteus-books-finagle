@@ -17,48 +17,10 @@ import scala.collection.JavaConversions._
 import scala.collection.mutable.HashSet
 import java.io.File
 
-/** Converting from Akka to Finagle impl. **/
-//import edu.umass.ciir.proteus.protocol.ProteusProtocol._
-//import edu.umass.ciir.proteus._
-import edu.ciir.proteus.ProteusClient
-import edu.ciir.proteus.thrift._
-
-
-object Librarian extends Logger {
-  //val library = new LibrarianClient("localhost", 8081)
-  val library = new ProteusClient("localhost", 8081)
-  def performSearch(query:String, typesRequested: List[String]) : List[SearchResult] = {
-      
-        // catch illegal operator exception here
-        val processed = processQuery(trace("processing query", query))
-        
-        info("scala.Query.performSearch => PROCESSED_QUERY: " + processed)
-        Timer.go("Lower level doc search")
-        //val result = library.query(processed, typesRequested.map(convertType(_))).get.asInstanceOf[SearchResponse]//search.runQuery(processed, p, provideSnippets)
-        val results = library.query(processed, List(ProteusType.Page)).get().results.toList
-        info(Timer.stop)
-        //return result.getResultsList.toList
-        return results
-    }
-
-    // Need to split up multi-word queries, but ignore components that may be useful
-    val ignored = """has_(obj|sub)|(obj|sub)_of|entity_|page_""".r
-    val stripRE = """\.""".r
-
-    def processQuery(query: String) : String = {
-        if (query.startsWith("#")) 
-            return query
-    
-       
-        val result = stripRE.replaceAllIn(query, " ").toLowerCase
-        return result
-    }
-  
-}
 
 abstract class Query extends Logger  {
   
-//    var search : Box[Search]
+		
     val prefix = System.getProperty("label", "default") + "."
     var indexes = "default"
     val selectedLanguage = "english"

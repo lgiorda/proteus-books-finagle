@@ -18,6 +18,23 @@ import Helpers._
 
 import edu.ciir.proteus.thrift._
 
+/**
+ * An item in the cart
+ */
+trait CombinedHashable  {
+  def item: SearchResult
+  override def hashCode : Int = (item.id.identifier + item.id.resourceId).hashCode
+}
+
+case class EntityItem(item: SearchResult, selected: Boolean, full_obj: Object = null, id: String = Helpers.nextFuncName) extends CombinedHashable {
+  def isPerson: Boolean = item.proteusType == ProteusType.Person
+  def isLocation: Boolean = item.proteusType == ProteusType.Location
+  def asPerson : Person = if (full_obj == null) null else full_obj.asInstanceOf[Person]
+  def asLocation : Location = if (full_obj == null) null else full_obj.asInstanceOf[Location]
+}
+case class BookItem(item: SearchResult, selected: Boolean, full_obj: Object = null, id: String = Helpers.nextFuncName) extends CombinedHashable
+case class PageItem(item: SearchResult, selected: Boolean, full_obj: Object = null, id: String = Helpers.nextFuncName) extends CombinedHashable
+case class PictureItem(item: SearchResult, selected: Boolean, full_obj: Object = null, id: String = Helpers.nextFuncName) extends CombinedHashable
 
 /**
  * The shopping cart
@@ -252,23 +269,9 @@ class Cart extends Logger {
 
 }
 
-/**
- * An item in the cart
- */
-trait CombinedHashable  {
-  def item: SearchResult
-  override def hashCode : Int = (item.id.identifier + item.id.resourceId).hashCode
-}
 
-case class BookItem(item: SearchResult, selected: Boolean, full_obj: edu.umass.ciir.proteus.protocol.ProteusProtocol.Collection = null, id: String = Helpers.nextFuncName) extends CombinedHashable
-case class PageItem(item: SearchResult, selected: Boolean, full_obj: edu.umass.ciir.proteus.protocol.ProteusProtocol.Page = null, id: String = Helpers.nextFuncName) extends CombinedHashable
-case class PictureItem(item: SearchResult, selected: Boolean, full_obj: edu.umass.ciir.proteus.protocol.ProteusProtocol.Picture = null, id: String = Helpers.nextFuncName) extends CombinedHashable
-case class EntityItem(item: SearchResult, selected: Boolean, full_obj: Object = null, id: String = Helpers.nextFuncName) extends CombinedHashable {
-  def isPerson: Boolean = item.proteusType == ProteusType.Person
-  def isLocation: Boolean = item.proteusType == ProteusType.Location
-  def asPerson : Person = if (full_obj == null) null else full_obj.asInstanceOf[Person]
-  def asLocation : Location = if (full_obj == null) null else full_obj.asInstanceOf[Location]
-}
+
+
 
                     
                                 

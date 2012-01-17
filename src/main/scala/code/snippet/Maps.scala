@@ -23,10 +23,10 @@ import scala.collection.mutable.ListBuffer
 import util._
 import Helpers._
 import scala.collection.JavaConversions._
-import akka.dispatch.Future
+
 
 class Maps extends Logger {
-
+  
   var idList:ListBuffer[JsArray] = new ListBuffer[JsArray]
 // "JavaScript-producing" scala code goes here
   def render = {
